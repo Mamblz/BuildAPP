@@ -1,9 +1,9 @@
 using DesktopProgram.Data;
 using DesktopProgram.Models;
-using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Windows;
 
 namespace DesktopProgram.Services
 {
@@ -15,13 +15,15 @@ namespace DesktopProgram.Services
         {
             _context = new ApplicationDbContext();
             _context.Database.EnsureCreated();
-
-            var dbPath = _context.Database.GetDbConnection().DataSource;
-            MessageBox.Show($"База данных по пути: {dbPath}");
         }
 
         public bool Register(string username, string email, string password)
         {
+            if (string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(password))
+                return false;
+
             if (_context.Users.Any(u => u.Username == username || u.Email == email))
                 return false;
 
@@ -40,6 +42,9 @@ namespace DesktopProgram.Services
 
         public bool Login(string usernameOrEmail, string password)
         {
+            if (string.IsNullOrWhiteSpace(usernameOrEmail) || string.IsNullOrWhiteSpace(password))
+                return false;
+
             var user = _context.Users.FirstOrDefault(u =>
                 u.Username == usernameOrEmail || u.Email == usernameOrEmail);
 

@@ -1,26 +1,30 @@
-﻿using System.Windows;
-using BuildAPP;
-using DesktopProgram.Data;
-using DesktopProgram.Models;
+﻿using System;
+using System.Windows;
+using BuildFlowApp.Views;
+using DesktopProgram.Views;
 
 namespace BuildFlowApp
 {
     public partial class MainWindow : Window
     {
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        public MainWindow()
         {
-            MessageBox.Show("Логин нажат");
+            InitializeComponent();
+            ShowLogin();
         }
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        public void ShowLogin()
         {
-            var registerWindow = new RegisterWindow();
-            registerWindow.ShowDialog();
+            var loginControl = new LoginControl();
+            loginControl.SwitchToRegister += ShowRegister;
+            MainContent.Content = loginControl;
         }
 
-        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        public void ShowRegister()
         {
+            var registerControl = new RegisterControl();
+            registerControl.SwitchToLogin += ShowLogin;
+            MainContent.Content = registerControl;
         }
-
     }
 }
