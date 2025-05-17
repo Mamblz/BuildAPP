@@ -5,7 +5,7 @@
     <Border Background="White" Padding="30" Margin="20">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
             <TextBlock Text="Регистрация" FontSize="28" FontWeight="Bold" Foreground="#222" HorizontalAlignment="Center" Margin="0,0,0,30"/>
-            <TextBlock Text="Имя пользователя" FontWeight="SemiBold" Margin="5,0,0,5" Foreground="#555"/>
+            <TextBlock Text="Логин" FontWeight="SemiBold" Margin="5,0,0,5" Foreground="#555"/>
             <Border Background="#f5f5f5" BorderBrush="#ccc" BorderThickness="1" CornerRadius="8" Margin="0,0,0,15" Height="40">
                 <TextBox x:Name="UsernameTextBox" Background="Transparent" BorderThickness="0" Padding="10" FontSize="14" Foreground="#333"/>
             </Border>
