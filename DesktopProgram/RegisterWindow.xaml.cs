@@ -1,42 +1,42 @@
 ﻿using System.Linq;
 using System.Windows;
+using DesktopProgram.Services;
 
-
-namespace BuildAPP
-{
-    public partial class RegisterWindow : Window
+    namespace BuildAPP
     {
-        private readonly AuthService _authService;
-
-        public RegisterWindow()
+        public partial class RegisterWindow : Window
         {
-            InitializeComponent();
-            _authService = new AuthService();
-        }
+            private readonly AuthService _authService;
 
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            string username = UsernameTextBox.Text.Trim();
-            string email = EmailTextBox.Text.Trim();
-            string password = PasswordBox.Password;
-
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
-{
-                MessageBox.Show("Заполните все пoля.");
-                return;
+            public RegisterWindow()
+            {
+                InitializeComponent();
+                _authService = new AuthService();
             }
 
-            bool success = _authService.Register(username, email, password);
+            private void RegisterButton_Click(object sender, RoutedEventArgs e)
+            {
+                string username = UsernameTextBox.Text.Trim();
+                string email = EmailTextBox.Text.Trim();
+                string password = PasswordBox.Password;
 
-            if (success)
+                if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(email) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Регистрация успешна!");
-                Close();
-            }
-            else
-            {
-                MessageBox.Show("Пользователь с таким именем или email уже существует.");
+                    MessageBox.Show("Заполните все поля.");
+                    return;
+                }
+
+                bool success = _authService.Register(username, email, password);
+
+                if (success)
+                {
+                    MessageBox.Show("Регистрация успешна!");
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("Пользователь с таким именем или email уже существует.");
+                }
             }
         }
     }
-}

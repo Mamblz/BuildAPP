@@ -1,11 +1,11 @@
-using BuildFlowApp.Data;
-using BuildFlowApp.Models;
-using System;
-using System.Linq;
+using DesktopProgram.Data;
+using DesktopProgram.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
+using System.Windows;
 
-namespace BuildAPP
+namespace DesktopProgram.Services
 {
     public class AuthService
     {
@@ -15,8 +15,10 @@ namespace BuildAPP
         {
             _context = new ApplicationDbContext();
             _context.Database.EnsureCreated();
-        }
 
+            var dbPath = _context.Database.GetDbConnection().DataSource;
+            MessageBox.Show($"База данных по пути: {dbPath}");
+        }
 
         public bool Register(string username, string email, string password)
         {
@@ -32,9 +34,9 @@ namespace BuildAPP
 
             _context.Users.Add(user);
             _context.SaveChanges();
+
             return true;
         }
-
 
         public bool Login(string usernameOrEmail, string password)
         {
@@ -46,7 +48,6 @@ namespace BuildAPP
 
             return user.PasswordHash == HashPassword(password);
         }
-
 
         private string HashPassword(string password)
         {

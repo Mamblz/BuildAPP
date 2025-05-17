@@ -1,13 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using BuildFlowApp.Models;
+using DesktopProgram.Models;
 
-namespace BuildFlowApp.Data
+namespace DesktopProgram.Data
 {
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseNpgsql("Host=localhost;Database=buildflow;Username=postgres;Password=your_password");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=appdata.db");
+        }
     }
 }

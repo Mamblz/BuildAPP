@@ -6,13 +6,10 @@
         <StackPanel>
             <TextBlock Text="Имя пользователя:"/>
             <TextBox x:Name="UsernameTextBox" Margin="0,0,0,10"/>
-
             <TextBlock Text="Email:"/>
             <TextBox x:Name="EmailTextBox" Margin="0,0,0,10"/>
-
             <TextBlock Text="Пароль:"/>
             <PasswordBox x:Name="PasswordBox" Margin="0,0,0,20"/>
-
             <Button Content="Зарегистрироваться" Click="RegisterButton_Click"/>
         </StackPanel>
     </Grid>
