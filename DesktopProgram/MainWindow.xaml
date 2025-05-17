@@ -9,7 +9,6 @@
         Background="#f0f2f5"
         >
     <Window.Resources>
-        <!-- Стиль для TextBox -->
         <Style x:Key="ModernTextBox" TargetType="TextBox">
             <Setter Property="Background" Value="#eee"/>
             <Setter Property="BorderBrush" Value="#ccc"/>
@@ -57,7 +56,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль для PasswordBox -->
         <Style x:Key="ModernPasswordBox" TargetType="PasswordBox">
             <Setter Property="Background" Value="#eee"/>
             <Setter Property="BorderBrush" Value="#ccc"/>
@@ -96,7 +94,6 @@
             </Setter>
         </Style>
 
-        <!-- Стиль для кнопок Вход и Регистрация -->
         <Style x:Key="ModernButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontWeight" Value="Bold"/>
@@ -172,7 +169,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Заголовок -->
             <TextBlock Text="Вход" 
                        FontSize="26" 
                        FontWeight="Bold" 
@@ -180,10 +176,8 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,25"/>
 
-            <!-- Логин -->
             <TextBox Grid.Row="1" Style="{StaticResource ModernTextBox}" Tag="Логин" Name="LoginTextBox"/>
 
-            <!-- Пароль -->
             <PasswordBox Grid.Row="2" Style="{StaticResource ModernPasswordBox}" Tag="Пароль" Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" Margin="0,15,0,0"/>
             <TextBlock x:Name="PasswordPlaceholder" Text="Пароль" Foreground="#999" IsHitTestVisible="False"
                        Margin="12,53,0,0" VerticalAlignment="Top" FontSize="14" />

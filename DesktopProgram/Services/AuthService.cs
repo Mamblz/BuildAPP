@@ -1,38 +1,58 @@
-using System.Linq;
-using BuildFlowApp.Models;
 using BuildFlowApp.Data;
+using BuildFlowApp.Models;
+using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace BuildFlowApp.Services
+namespace BuildAPP
 {
     public class AuthService
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ApplicationDbContext _context;
 
-        public AuthService(ApplicationDbContext db)
+        public AuthService()
         {
-            _db = db;
-            _db.Database.EnsureCreated();
+            _context = new ApplicationDbContext();
+            _context.Database.EnsureCreated();
         }
+
 
         public bool Register(string username, string email, string password)
         {
-            if (_db.Users.Any(u => u.Email == email)) return false;
+            if (_context.Users.Any(u => u.Username == username || u.Email == email))
+                return false;
+
             var user = new User
             {
                 Username = username,
                 Email = email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password)
+                PasswordHash = HashPassword(password)
             };
-            _db.Users.Add(user);
-            _db.SaveChanges();
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
             return true;
         }
 
-        public User? Login(string email, string password)
+
+        public bool Login(string usernameOrEmail, string password)
         {
-            var user = _db.Users.FirstOrDefault(u => u.Email == email);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return null;
-            return user;
+            var user = _context.Users.FirstOrDefault(u =>
+                u.Username == usernameOrEmail || u.Email == usernameOrEmail);
+
+            if (user == null)
+                return false;
+
+            return user.PasswordHash == HashPassword(password);
+        }
+
+
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(bytes);
         }
     }
 }
