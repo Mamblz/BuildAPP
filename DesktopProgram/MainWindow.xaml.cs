@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows;
-using BuildFlowApp.Views;
-using DesktopProgram.Views;
+﻿using System.Windows;
+using BuildFlowApp.Views;     // Для MainControl
+using DesktopProgram.Views;   // Для LoginControl и RegisterControl
 
 namespace BuildFlowApp
 {
@@ -17,6 +16,7 @@ namespace BuildFlowApp
         {
             var loginControl = new LoginControl();
             loginControl.SwitchToRegister += ShowRegister;
+            loginControl.LoginSuccessful += ShowMainControl;  // Подписываемся на успешный вход
             MainContent.Content = loginControl;
         }
 
@@ -25,6 +25,12 @@ namespace BuildFlowApp
             var registerControl = new RegisterControl();
             registerControl.SwitchToLogin += ShowLogin;
             MainContent.Content = registerControl;
+        }
+
+        public void ShowMainControl()
+        {
+            var mainControl = new MainControl();
+            MainContent.Content = mainControl;
         }
     }
 }
