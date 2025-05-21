@@ -1,4 +1,5 @@
 ﻿using DesktopProgram.Data;
+using DesktopProgram.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Windows.Controls;
@@ -23,12 +24,12 @@ namespace BuildFlowApp.Views
                 .ThenInclude(br => br.Resource)
                 .ToList();
 
-            var displayList = buildings.Select(b => new
+            var displayList = buildings.Select(b => new BuildingDisplayModel
             {
-                b.Name,
-                b.Status,
-                b.Progress,
-                BuildingResources = b.BuildingResources.Select(br => new
+                Name = b.Name,
+                Status = b.Status,
+                Progress = b.Progress,
+                BuildingResources = b.BuildingResources.Select(br => new ResourceDisplayModel
                 {
                     ResourceInfo = $"{br.Resource.Name} x{br.Quantity} (Стоимость: {br.Resource.Cost})"
                 }).ToList()

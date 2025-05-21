@@ -7,7 +7,7 @@ namespace DesktopProgram.Data
     public class ApplicationDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet <Building> Buildings { get; set; }
+        public DbSet<Building> Buildings { get; set; }
         public DbSet<Resource> Resources { get; set; }
         public DbSet<BuildingResource> BuildingResources { get; set; }
 
