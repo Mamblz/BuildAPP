@@ -1,19 +1,25 @@
-﻿using DesktopProgram.Data;
-using DesktopProgram.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
 using System.Linq;
 using System.Windows.Controls;
+using DesktopProgram.Models;
+using DesktopProgram.Data;
+using Microsoft.EntityFrameworkCore;
 
-namespace BuildFlowApp.Views
+namespace DesktopProgram.Views
 {
     public partial class MainControl : UserControl
     {
+        private readonly User _currentUser;
         private readonly ApplicationDbContext _context;
 
-        public MainControl()
+        public event Action UserProfileRequested;
+
+        public MainControl(User currentUser)
         {
             InitializeComponent();
+            _currentUser = currentUser;
             _context = new ApplicationDbContext();
+
             LoadBuildings();
         }
 
@@ -36,6 +42,11 @@ namespace BuildFlowApp.Views
             }).ToList();
 
             BuildingsList.ItemsSource = displayList;
+        }
+
+        private void UserProfileButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            UserProfileRequested?.Invoke();
         }
     }
 }
