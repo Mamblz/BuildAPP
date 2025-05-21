@@ -30,7 +30,6 @@ namespace DesktopProgram.Data
                 .WithMany()
                 .HasForeignKey(br => br.ResourceId);
 
-            // Начальные данные
             modelBuilder.Entity<Resource>().HasData(
                 new Resource { Id = 1, Name = "Дерево", Cost = 100 },
                 new Resource { Id = 2, Name = "Камень", Cost = 200 }
