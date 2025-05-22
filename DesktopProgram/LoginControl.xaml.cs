@@ -25,7 +25,7 @@ namespace DesktopProgram.Views
             string login = LoginTextBox.Text.Trim();
             string password = PasswordBox.Password;
 
-            User user = _authService.Login(login, password); // возвращает User или null
+            User user = _authService.Login(login, password); // ✅ теперь возвращает User
 
             if (user != null)
             {
@@ -37,6 +37,7 @@ namespace DesktopProgram.Views
                 MessageBox.Show("Неверный логин или пароль.");
             }
         }
+
 
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
