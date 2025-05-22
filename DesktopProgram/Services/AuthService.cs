@@ -40,19 +40,20 @@ namespace DesktopProgram.Services
             return true;
         }
 
-        public bool Login(string usernameOrEmail, string password)
+        public User Login(string usernameOrEmail, string password)
         {
             if (string.IsNullOrWhiteSpace(usernameOrEmail) || string.IsNullOrWhiteSpace(password))
-                return false;
+                return null;
 
             var user = _context.Users.FirstOrDefault(u =>
                 u.Username == usernameOrEmail || u.Email == usernameOrEmail);
 
             if (user == null)
-                return false;
+                return null;
 
-            return user.PasswordHash == HashPassword(password);
+            return user.PasswordHash == HashPassword(password) ? user : null;
         }
+
 
         private string HashPassword(string password)
         {
