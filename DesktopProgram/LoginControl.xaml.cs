@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using DesktopProgram.Models;
 using DesktopProgram.Services;
 
 namespace DesktopProgram.Views
@@ -8,6 +9,7 @@ namespace DesktopProgram.Views
     public partial class LoginControl : UserControl
     {
         public event Action SwitchToRegister;
+        public event Action<User> LoginSuccessful;
 
         private readonly AuthService _authService;
 
@@ -22,15 +24,20 @@ namespace DesktopProgram.Views
             string login = LoginTextBox.Text.Trim();
             string password = PasswordBox.Password;
 
-            if (_authService.Login(login, password))
+            User user = _authService.Login(login, password);
+
+            if (user != null)
             {
                 MessageBox.Show("Успешный вход!");
+                LoginSuccessful?.Invoke(user);
             }
             else
             {
                 MessageBox.Show("Неверный логин или пароль.");
             }
         }
+
+
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {

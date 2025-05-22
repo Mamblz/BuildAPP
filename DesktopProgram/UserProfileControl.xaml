@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="DesktopProgram.Views.UserProfileControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#f0f2f5">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Профиль пользователя"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Margin="0 0 0 20"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Имя пользователя:"
+                       FontWeight="SemiBold"
+                       FontSize="16"/>
+            <TextBlock x:Name="UserNameTextBlock"
+                       FontSize="16"
+                       Margin="0 0 0 15"/>
+
+            <TextBlock Text="Email:"
+                       FontWeight="SemiBold"
+                       FontSize="16"/>
+            <TextBlock x:Name="EmailTextBlock"
+                       FontSize="16"
+                       Margin="0 0 0 30"/>
+
+            <Button Content="Назад"
+                    Width="130"
+                    Height="40"
+                    HorizontalAlignment="Center"
+                    Click="BackButton_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
