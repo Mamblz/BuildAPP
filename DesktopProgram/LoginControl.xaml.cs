@@ -1,5 +1,4 @@
-﻿// LoginControl.xaml.cs
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using DesktopProgram.Models;
@@ -25,7 +24,7 @@ namespace DesktopProgram.Views
             string login = LoginTextBox.Text.Trim();
             string password = PasswordBox.Password;
 
-            User user = _authService.Login(login, password); // ✅ теперь возвращает User
+            User user = _authService.Login(login, password);
 
             if (user != null)
             {
