@@ -4,57 +4,29 @@
              Background="#f0f2f5">
     <Grid Margin="20">
         <StackPanel>
-            <TextBlock Text="Статус постройки"
-                       FontSize="24"
+            <TextBlock Text="Статус построек"
+                       FontSize="28"
                        FontWeight="Bold"
-                       Margin="0 0 0 20"/>
+                       Margin="0 0 0 20"
+                       Foreground="#222"
+                       HorizontalAlignment="Center"/>
 
             <Button Content="Профиль пользователя"
-                    Width="150"
-                    Height="40"
-                    Margin="0 0 0 20"
+                    Width="180"
+                    Height="44"
+                    Margin="0 0 0 30"
+                    Background="#4A90E2"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    BorderThickness="0"
+                    Cursor="Hand"
                     Click="UserProfileButton_Click"/>
 
-            <ItemsControl x:Name="BuildingsList">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Gray"
-                                BorderThickness="1"
-                                Padding="10"
-                                Margin="0 0 0 10"
-                                CornerRadius="5"
-                                Background="White">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}"
-                                           FontSize="18"
-                                           FontWeight="Bold"/>
-
-                                <TextBlock>
-                                    <Run Text="Статус: " FontWeight="Bold"/>
-                                    <Run Text="{Binding Status}"/>
-                                </TextBlock>
-
-                                <TextBlock Text="Прогресс:"/>
-                                <ProgressBar Value="{Binding Progress}"
-                                             Maximum="100"
-                                             Height="20"
-                                             Margin="0 0 0 10"/>
-
-                                <TextBlock Text="Необходимые ресурсы:"
-                                           FontWeight="Bold"
-                                           Margin="0 5 0 0"/>
-                                <ItemsControl ItemsSource="{Binding BuildingResources}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ResourceInfo}" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="600">
+                <WrapPanel x:Name="BuildingsPanel" HorizontalAlignment="Center" ItemWidth="300" ItemHeight="250" Margin="0">
+                    <!-- Постройки будут добавляться динамически -->
+                </WrapPanel>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </UserControl>
