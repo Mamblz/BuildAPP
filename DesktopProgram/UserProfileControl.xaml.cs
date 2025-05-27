@@ -63,7 +63,7 @@ namespace DesktopProgram.Views
 
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Функция смены пароля пока не реализована. Ожидайте", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Функция смены пароля на данный момент не разработана", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private bool IsValidEmail(string email)
