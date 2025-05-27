@@ -64,11 +64,17 @@ namespace DesktopProgram.Views
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             var passwordWindow = new ChangePasswordWindow(_currentUser);
             passwordWindow.ShowDialog();
         }
 
 
+=======
+            MessageBox.Show("Функция смены пароля на данный момент не разработана", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+>>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
 =======
             MessageBox.Show("Функция смены пароля на данный момент не разработана", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -90,6 +96,7 @@ namespace DesktopProgram.Views
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         private void ChangeEmail_Click(object sender, RoutedEventArgs e)
         {
@@ -101,6 +108,8 @@ namespace DesktopProgram.Views
         }
 
 
+=======
+>>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
 =======
 >>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
     }

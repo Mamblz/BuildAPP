@@ -37,6 +37,7 @@
                          BorderThickness="1"
                          Background="#fafafa"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <StackPanel Orientation="Horizontal" Margin="0 0 0 20" HorizontalAlignment="Center">
                     <Button Content="Сменить пароль"
             Width="140"
@@ -62,6 +63,8 @@
 
 
 =======
+=======
+>>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
                 <Button Content="Сменить пароль"
                         Width="140"
                         Height="36"
@@ -73,6 +76,9 @@
                         Cursor="Hand"
                         Margin="0 0 0 20"
                         Click="ChangePassword_Click"/>
+<<<<<<< HEAD
+>>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
+=======
 >>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
 
                 <TextBlock x:Name="StatusTextBlock" 
