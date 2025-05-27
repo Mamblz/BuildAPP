@@ -1,9 +1,7 @@
 using DesktopProgram.Data;
 using DesktopProgram.Models;
-using System;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
+using System.Security.Cryptography;
 
 namespace DesktopProgram.Services
 {
@@ -54,6 +52,20 @@ namespace DesktopProgram.Services
             return user.PasswordHash == HashPassword(password) ? user : null;
         }
 
+        public string GetHashedPassword(string password)
+        {
+            return HashPassword(password);
+        }
+
+        public void UpdateUserPassword(User user)
+        {
+            var existingUser = _context.Users.FirstOrDefault(u => u.Id == user.Id);
+            if (existingUser != null)
+            {
+                existingUser.PasswordHash = user.PasswordHash;
+                _context.SaveChanges();
+            }
+        }
 
         private string HashPassword(string password)
         {
