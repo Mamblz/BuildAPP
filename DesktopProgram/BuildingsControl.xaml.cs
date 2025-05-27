@@ -22,16 +22,19 @@ namespace DesktopProgram.Views
             LoadBuildings();
         }
 
+        public event Action LoadResourcesRequested;
+        public event Action ShowProfileRequested;
+        public event Action LogoutRequested;
+
         private void LoadBuildings()
         {
             BuildingsPanel.Children.Clear();
 
-                var buildings = _context.Buildings
-        .Include(b => b.BuildingResources)
-        .ThenInclude(br => br.Resource)
-        .OrderByDescending(b => b.Id)
-        .ToList();
-
+            var buildings = _context.Buildings
+                .Include(b => b.BuildingResources)
+                .ThenInclude(br => br.Resource)
+                .OrderByDescending(b => b.Id)
+                .ToList();
 
             foreach (var b in buildings)
             {
@@ -43,15 +46,12 @@ namespace DesktopProgram.Views
         {
             var border = new Border
             {
-                Background = new LinearGradientBrush(
-                    Color.FromRgb(255, 255, 255),
-                    Color.FromRgb(240, 248, 255),
-                    90),
+                Background = new LinearGradientBrush(Color.FromRgb(255, 255, 255), Color.FromRgb(240, 248, 255), 90),
                 CornerRadius = new CornerRadius(18),
                 BorderBrush = new SolidColorBrush(Color.FromRgb(190, 210, 230)),
                 BorderThickness = new Thickness(2),
                 Width = 300,
-                Height = 310,
+                Height = 370,
                 Margin = new Thickness(12),
                 Padding = new Thickness(20),
                 Effect = new System.Windows.Media.Effects.DropShadowEffect
@@ -61,27 +61,12 @@ namespace DesktopProgram.Views
                     ShadowDepth = 5,
                     Opacity = 0.25
                 },
-                Cursor = Cursors.Hand
-            };
-
-            border.MouseEnter += (s, e) =>
-            {
-                var anim = new DoubleAnimation(1.05, TimeSpan.FromMilliseconds(200));
-                border.RenderTransformOrigin = new Point(0.5, 0.5);
-                border.RenderTransform = new ScaleTransform(1, 1);
-                border.RenderTransform.BeginAnimation(ScaleTransform.ScaleXProperty, anim);
-                border.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, anim);
-            };
-            border.MouseLeave += (s, e) =>
-            {
-                var anim = new DoubleAnimation(1, TimeSpan.FromMilliseconds(200));
-                border.RenderTransform.BeginAnimation(ScaleTransform.ScaleXProperty, anim);
-                border.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, anim);
+                Cursor = Cursors.Arrow
             };
 
             var stack = new StackPanel { VerticalAlignment = VerticalAlignment.Stretch };
 
-            var title = new TextBlock
+            stack.Children.Add(new TextBlock
             {
                 Text = building.Name,
                 FontSize = 22,
@@ -89,117 +74,103 @@ namespace DesktopProgram.Views
                 Foreground = new SolidColorBrush(Color.FromRgb(22, 35, 52)),
                 Margin = new Thickness(0, 0, 0, 12),
                 TextAlignment = TextAlignment.Center
-            };
+            });
 
-            var status = new TextBlock
+            stack.Children.Add(new TextBlock
             {
                 Text = $"Статус: {building.Status}",
                 FontWeight = FontWeights.Medium,
                 Foreground = new SolidColorBrush(Color.FromRgb(60, 60, 60)),
                 Margin = new Thickness(0, 0, 0, 8),
                 TextAlignment = TextAlignment.Center
-            };
+            });
 
-            var progressBar = new ProgressBar
+            stack.Children.Add(new ProgressBar
             {
                 Value = building.Progress,
                 Maximum = 100,
                 Height = 24,
                 Margin = new Thickness(0, 0, 0, 14),
                 Foreground = new SolidColorBrush(Color.FromRgb(41, 128, 185))
-            };
+            });
 
-            var resourcesLabel = new TextBlock
+            stack.Children.Add(new TextBlock
             {
                 Text = "Необходимые ресурсы:",
                 FontWeight = FontWeights.SemiBold,
                 Foreground = new SolidColorBrush(Color.FromRgb(80, 80, 80)),
                 Margin = new Thickness(0, 0, 0, 6)
-            };
+            });
 
             var resourcesStack = new StackPanel();
-
             foreach (var br in building.BuildingResources)
             {
-                string info = $"{br.Resource.Name} x{br.Quantity} (Стоимость: {br.Resource.Cost})";
-                var resText = new TextBlock
+                resourcesStack.Children.Add(new TextBlock
                 {
-                    Text = info,
+                    Text = $"{br.Resource.Name} x{br.Quantity} (Стоимость: {br.Resource.Cost})",
                     FontSize = 14,
                     Foreground = new SolidColorBrush(Color.FromRgb(95, 95, 95)),
                     ToolTip = $"Стоимость одного: {br.Resource.Cost}"
-                };
-                resourcesStack.Children.Add(resText);
+                });
             }
-
-            stack.Children.Add(title);
-            stack.Children.Add(status);
-            stack.Children.Add(progressBar);
-            stack.Children.Add(resourcesLabel);
             stack.Children.Add(resourcesStack);
 
-            border.Child = stack;
+            // Кнопка удаления
+            var deleteButton = new Button
+            {
+                Content = "Удалить",
+                Background = new SolidColorBrush(Color.FromRgb(200, 50, 50)),
+                Foreground = Brushes.White,
+                Margin = new Thickness(0, 12, 0, 0),
+                Padding = new Thickness(6),
+                BorderThickness = new Thickness(0),
+                Cursor = Cursors.Hand,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Width = 100
+            };
 
+            deleteButton.Click += (s, e) =>
+            {
+                var result = MessageBox.Show($"Удалить здание \"{building.Name}\"?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    _context.Buildings.Remove(building);
+                    _context.SaveChanges();
+                    LoadBuildings();
+                }
+            };
+
+            stack.Children.Add(deleteButton);
+            border.Child = stack;
             return border;
         }
 
-        private void RefreshBuildings_Click(object sender, RoutedEventArgs e)
+        private void LoadResources_Click(object sender, RoutedEventArgs e)
+        {
+            LoadResourcesRequested?.Invoke();
+        }
+
+        private void ShowUserProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ShowProfileRequested?.Invoke();
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            LogoutRequested?.Invoke();
+        }
+
+        private void LoadBuildings_Click(object sender, RoutedEventArgs e)
         {
             LoadBuildings();
         }
 
         private void AddBuilding_Click(object sender, RoutedEventArgs e)
         {
-            var addWindow = new AddBuildingWindow
+            var window = new AddBuildingWindow();
+            if (window.ShowDialog() == true)
             {
-                Owner = Window.GetWindow(this)
-            };
-
-            if (addWindow.ShowDialog() == true)
-            {
-                var newBuilding = addWindow.NewBuilding;
-
-                _context.Buildings.Add(newBuilding);
-                _context.SaveChanges();
-
                 LoadBuildings();
-            }
-        }
-
-        private void DeleteBuilding_Click(object sender, RoutedEventArgs e)
-        {
-            string nameToDelete = DeleteBuildingNameTextBox.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(nameToDelete))
-            {
-                MessageBox.Show("Введите название здания для удаления.");
-                return;
-            }
-
-            var building = _context.Buildings.FirstOrDefault(b => b.Name == nameToDelete);
-
-            if (building == null)
-            {
-                MessageBox.Show($"Здание с названием '{nameToDelete}' не найдено.");
-                return;
-            }
-
-            var result = MessageBox.Show($"Вы действительно хотите удалить здание '{nameToDelete}'?",
-                                         "Подтверждение удаления", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                var relatedResources = _context.BuildingResources.Where(br => br.BuildingId == building.Id).ToList();
-                _context.BuildingResources.RemoveRange(relatedResources);
-
-                _context.Buildings.Remove(building);
-                _context.SaveChanges();
-
-                MessageBox.Show($"Здание '{nameToDelete}' успешно удалено.");
-
-                LoadBuildings();
-
-                DeleteBuildingNameTextBox.Text = "";
             }
         }
     }

@@ -7,30 +7,66 @@
 
     <UserControl.Resources>
         <conv:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+
+        <Style x:Key="NavLinkStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#4A90E2"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#4A90E2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="MinWidth" Value="140"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="20"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#4A90E2"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#357ABD"/>
+                                <Setter Property="BorderBrush" Value="#357ABD"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="#E5E5E5"/>
+                                <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                                <Setter Property="Foreground" Value="#AAAAAA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 0 15" VerticalAlignment="Center">
-
-            <Button Content="Обновить" Width="100" Height="32" Click="RefreshBuildings_Click" Margin="0,0,10,0"/>
-            <Button Content="Добавить здание" Width="140" Height="32" Click="AddBuilding_Click" Margin="0,0,10,0"/>
-
-            <Grid Width="180" Height="28" Margin="0,0,10,0">
-                <TextBox x:Name="DeleteBuildingNameTextBox" VerticalContentAlignment="Center" />
-
-                <TextBlock Text="Название здания для удаления"
-                           IsHitTestVisible="False"
-                           Foreground="Gray"
-                           Margin="5,0,0,0"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding Text.IsEmpty, ElementName=DeleteBuildingNameTextBox, Converter={StaticResource IntToVisibilityConverter}}" />
-            </Grid>
-
-            <Button Content="Удалить здание" Width="120" Height="32" Click="DeleteBuilding_Click"/>
+        <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0 0 0 20">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Постройки" Click="LoadBuildings_Click" Style="{StaticResource NavLinkStyle}" />
+                <Button Content="Ресурсы" Click="LoadResources_Click" Style="{StaticResource NavLinkStyle}" />
+                <Button Content="Профиль" Click="ShowUserProfile_Click" Style="{StaticResource NavLinkStyle}" />
+                <Button Content="Выход" Click="Logout_Click" Style="{StaticResource NavLinkStyle}" />
+                <Button Content="Добавить здание" Click="AddBuilding_Click" Style="{StaticResource NavLinkStyle}" />
+            </StackPanel>
         </StackPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <WrapPanel x:Name="BuildingsPanel" HorizontalAlignment="Center" ItemWidth="320" ItemHeight="320" Margin="0" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <WrapPanel x:Name="BuildingsPanel" />
         </ScrollViewer>
     </DockPanel>
 </UserControl>

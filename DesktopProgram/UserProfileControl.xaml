@@ -36,50 +36,29 @@
                          BorderBrush="#ccc"
                          BorderThickness="1"
                          Background="#fafafa"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 20" HorizontalAlignment="Center">
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 20 20" HorizontalAlignment="Center">
                     <Button Content="Сменить пароль"
-            Width="140"
-            Height="36"
-            Background="#4A90E2"
-            Foreground="White"
-            FontWeight="SemiBold"
-            BorderThickness="0"
-            Cursor="Hand"
-            Margin="0 0 10 0"
-            Click="ChangePassword_Click"/>
+                            Width="140"
+                            Height="36"
+                            Background="#4A90E2"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Margin="0 0 10 0"
+                            Click="ChangePassword_Click"/>
 
                     <Button Content="Сменить email"
-            Width="140"
-            Height="36"
-            Background="#4A90E2"
-            Foreground="White"
-            FontWeight="SemiBold"
-            BorderThickness="0"
-            Cursor="Hand"
-            Click="ChangeEmail_Click"/>
+                            Width="140"
+                            Height="36"
+                            Background="#4A90E2"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Click="ChangeEmail_Click"/>
                 </StackPanel>
-
-
-=======
-=======
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
-                <Button Content="Сменить пароль"
-                        Width="140"
-                        Height="36"
-                        HorizontalAlignment="Left"
-                        Background="#4A90E2"
-                        Foreground="White"
-                        FontWeight="SemiBold"
-                        BorderThickness="0"
-                        Cursor="Hand"
-                        Margin="0 0 0 20"
-                        Click="ChangePassword_Click"/>
-<<<<<<< HEAD
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
-=======
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
 
                 <TextBlock x:Name="StatusTextBlock" 
                            Foreground="Green" 

@@ -2,7 +2,6 @@
 using DesktopProgram.Models;
 using System;
 using System.Linq;
-using System.Security.Claims;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,6 +17,11 @@ namespace DesktopProgram.Views
             _context = new ApplicationDbContext();
             LoadResources();
         }
+
+        public event Action LoadBuildingsRequested;
+        public event Action LoadResourcesRequested;
+        public event Action ShowProfileRequested;
+        public event Action LogoutRequested;
 
         private void LoadResources()
         {
@@ -67,6 +71,26 @@ namespace DesktopProgram.Views
         {
             NameTextBox.Text = "";
             CostTextBox.Text = "";
+        }
+
+        private void LoadBuildings_Click(object sender, RoutedEventArgs e)
+        {
+            LoadBuildingsRequested?.Invoke();
+        }
+
+        private void LoadResources_Click(object sender, RoutedEventArgs e)
+        {
+            LoadResourcesRequested?.Invoke();
+        }
+
+        private void ShowUserProfile_Click(object sender, RoutedEventArgs e)
+        {
+            ShowProfileRequested?.Invoke();
+        }
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            LogoutRequested?.Invoke();
         }
     }
 }

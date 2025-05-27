@@ -46,7 +46,6 @@ namespace DesktopProgram.Views
             _currentUser.Username = newUsername;
             _currentUser.Email = newEmail;
 
-
             StatusTextBlock.Visibility = Visibility.Visible;
 
             var timer = new System.Windows.Threading.DispatcherTimer
@@ -63,23 +62,19 @@ namespace DesktopProgram.Views
 
         private void ChangePassword_Click(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
             var passwordWindow = new ChangePasswordWindow(_currentUser);
             passwordWindow.ShowDialog();
         }
 
-
-=======
-            MessageBox.Show("Функция смены пароля на данный момент не разработана", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+        private void ChangeEmail_Click(object sender, RoutedEventArgs e)
+        {
+            var changeEmailWindow = new ChangeEmailWindow(EmailTextBox.Text);
+            if (changeEmailWindow.ShowDialog() == true)
+            {
+                EmailTextBox.Text = changeEmailWindow.NewEmailTextBox.Text;
+            }
         }
 
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
-=======
-            MessageBox.Show("Функция смены пароля на данный момент не разработана", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
         private bool IsValidEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -95,22 +90,5 @@ namespace DesktopProgram.Views
                 return false;
             }
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        private void ChangeEmail_Click(object sender, RoutedEventArgs e)
-        {
-            var changeEmailWindow = new ChangeEmailWindow(EmailTextBox.Text);
-            if (changeEmailWindow.ShowDialog() == true)
-            {
-                EmailTextBox.Text = changeEmailWindow.NewEmailTextBox.Text;
-            }
-        }
-
-
-=======
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
-=======
->>>>>>> 3ac8f3ca4d0745ba92160490b60861e696711a53
     }
 }
