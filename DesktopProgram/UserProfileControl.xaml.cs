@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using DesktopProgram.Models;
 
@@ -8,23 +10,76 @@ namespace DesktopProgram.Views
     {
         private User _currentUser;
 
-        // Событие для возврата назад
         public event Action BackToMainRequested;
 
-        // Конструктор с передачей пользователя
         public UserProfileControl(User currentUser)
         {
             InitializeComponent();
             _currentUser = currentUser;
 
-            // Заполняем данные на форме
-            UserNameTextBlock.Text = _currentUser.Username;
-            EmailTextBlock.Text = _currentUser.Email;
+            UserNameTextBox.Text = _currentUser.Username;
+            EmailTextBox.Text = _currentUser.Email;
         }
 
-        private void BackButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             BackToMainRequested?.Invoke();
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string newUsername = UserNameTextBox.Text.Trim();
+            string newEmail = EmailTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(newUsername))
+            {
+                MessageBox.Show("Имя пользователя не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!IsValidEmail(newEmail))
+            {
+                MessageBox.Show("Введите корректный email.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            _currentUser.Username = newUsername;
+            _currentUser.Email = newEmail;
+
+
+            StatusTextBlock.Visibility = Visibility.Visible;
+
+            var timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(3)
+            };
+            timer.Tick += (s, args) =>
+            {
+                StatusTextBlock.Visibility = Visibility.Collapsed;
+                timer.Stop();
+            };
+            timer.Start();
+        }
+
+        private void ChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Функция смены пароля пока не реализована.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private bool IsValidEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return false;
+
+            try
+            {
+                var pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+                return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
