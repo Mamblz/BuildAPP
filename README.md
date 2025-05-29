@@ -25,7 +25,7 @@ pie
 
 ## ⚙️ Установка и запуск
 1. **Требования**:  
-   - .NET 6.0+  
+   - .NET 8.0+  
    - Visual Studio 2022  
    - SQL Server (или LocalDB)
 
