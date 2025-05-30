@@ -73,7 +73,8 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20" >
+        <!-- Панель ресурсов и заданий -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20">
             <Border Background="White" CornerRadius="12" Padding="15" Width="320" Margin="10">
                 <StackPanel>
                     <TextBlock Text="Ресурсы" FontWeight="SemiBold" FontSize="18" Margin="0 0 0 10" TextAlignment="Center"/>
