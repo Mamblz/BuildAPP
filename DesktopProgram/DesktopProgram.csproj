@@ -25,6 +25,9 @@
     <Compile Update="Converters\IntToVisibilityConverter.cs">
       <Generator>MSBuild:Compile</Generator>
     </Compile>
+    <Compile Update="Models\Project.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
   </ItemGroup>
 
 </Project>

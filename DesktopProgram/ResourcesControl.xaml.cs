@@ -10,6 +10,8 @@ namespace DesktopProgram.Views
     public partial class ResourcesControl : UserControl
     {
         private readonly ApplicationDbContext _context;
+        public event Action GoHomeRequested;
+
 
         public ResourcesControl()
         {
@@ -18,6 +20,7 @@ namespace DesktopProgram.Views
             LoadResources();
         }
 
+        public event Action LoadHomeRequested;
         public event Action LoadBuildingsRequested;
         public event Action LoadResourcesRequested;
         public event Action ShowProfileRequested;
@@ -71,6 +74,11 @@ namespace DesktopProgram.Views
         {
             NameTextBox.Text = "";
             CostTextBox.Text = "";
+        }
+
+        private void LoadHome_Click(object sender, RoutedEventArgs e)
+        {
+            GoHomeRequested?.Invoke();
         }
 
         private void LoadBuildings_Click(object sender, RoutedEventArgs e)

@@ -120,6 +120,9 @@ namespace DesktopProgram.Views
                 });
             }
 
+            _context.Buildings.Add(building);
+            _context.SaveChanges();
+
             NewBuilding = building;
             DialogResult = true;
             Close();

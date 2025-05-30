@@ -11,6 +11,8 @@ namespace DesktopProgram.Data
         public DbSet<Resource> Resources { get; set; }
         public DbSet<BuildingResource> BuildingResources { get; set; }
 
+        public DbSet<Project> Projects { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=appdata.db");
@@ -44,5 +46,36 @@ namespace DesktopProgram.Data
                 new BuildingResource { Id = 2, BuildingId = 1, ResourceId = 2, Quantity = 10 }
             );
         }
+
+        public static void SeedProjects()
+        {
+            using var context = new ApplicationDbContext();
+            if (!context.Projects.Any())
+            {
+                var projects = new List<Project>
+            {
+                new Project
+                {
+                    Name = "Жилой комплекс \"Солнечный\"",
+                    Status = "В процессе",
+                    Budget = "12 млн",
+                    ResourceUsage = "Дерево: 500, Камень: 200",
+                    Timeline = "Январь 2025 – Декабрь 2025"
+                },
+                new Project
+                {
+                    Name = "Офисное здание в центре",
+                    Status = "Планируется",
+                    Budget = "25 млн",
+                    ResourceUsage = "Сталь: 1000, Бетон: 500",
+                    Timeline = "Март 2026 – Ноябрь 2026"
+                }
+            };
+
+                context.Projects.AddRange(projects);
+                context.SaveChanges();
+            }
+        }
+
     }
 }

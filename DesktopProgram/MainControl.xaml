@@ -53,7 +53,7 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="20" >
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -64,7 +64,6 @@
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0 0 0 20">
             <TextBlock x:Name="GreetingText" FontSize="22" FontWeight="Bold" Foreground="#333" TextAlignment="Center" />
-
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 15 0 0">
                 <Button Content="Постройки" Click="LoadBuildings_Click" Style="{StaticResource NavLinkStyle}"/>
                 <Button Content="Ресурсы" Click="LoadResources_Click" Style="{StaticResource NavLinkStyle}"/>
@@ -73,23 +72,22 @@
             </StackPanel>
         </StackPanel>
 
-        <!-- Панель ресурсов и заданий -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 20">
             <Border Background="White" CornerRadius="12" Padding="15" Width="320" Margin="10">
                 <StackPanel>
                     <TextBlock Text="Ресурсы" FontWeight="SemiBold" FontSize="18" Margin="0 0 0 10" TextAlignment="Center"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0" >
-                            <TextBlock Text="💰" FontSize="20" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock x:Name="GoldText" Text="0" FontSize="16" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
+                            <TextBlock Text="💰" FontSize="20" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="GoldText" Text="0" FontSize="16"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0" >
-                            <TextBlock Text="🌲" FontSize="20" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock x:Name="WoodText" Text="0" FontSize="16" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
+                            <TextBlock Text="🌲" FontSize="20" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="WoodText" Text="0" FontSize="16"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0" >
-                            <TextBlock Text="⛰︎" FontSize="20" VerticalAlignment="Center" Margin="0,0,5,0"/>
-                            <TextBlock x:Name="StoneText" Text="0" FontSize="16" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="15,0">
+                            <TextBlock Text="⛰︎" FontSize="20" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="StoneText" Text="0" FontSize="16"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -126,9 +124,8 @@
 
             <DockPanel LastChildFill="False">
                 <TextBlock x:Name="ServerTimeText" DockPanel.Dock="Left" FontSize="14" Foreground="#666" VerticalAlignment="Center" />
-                <Button DockPanel.Dock="Right" Content="Обновить данные" Width="140" Height="30" Click="RefreshData_Click" Style="{StaticResource NavLinkStyle}"/>
+                <Button DockPanel.Dock="Right" Content="Обновить данные" Width="140" Height="30" Style="{StaticResource NavLinkStyle}"/>
             </DockPanel>
         </StackPanel>
-
     </Grid>
 </UserControl>

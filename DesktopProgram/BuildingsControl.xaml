@@ -57,6 +57,7 @@
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Margin="0 0 0 20">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Главная" Click="GoHome_Click" Style="{StaticResource NavLinkStyle}" />
                 <Button Content="Постройки" Click="LoadBuildings_Click" Style="{StaticResource NavLinkStyle}" />
                 <Button Content="Ресурсы" Click="LoadResources_Click" Style="{StaticResource NavLinkStyle}" />
                 <Button Content="Профиль" Click="ShowUserProfile_Click" Style="{StaticResource NavLinkStyle}" />

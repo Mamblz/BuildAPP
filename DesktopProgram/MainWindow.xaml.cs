@@ -1,7 +1,9 @@
 ﻿using System.Windows;
 using BuildFlowApp.Views;
+using DesktopProgram.Data;
 using DesktopProgram.Models;
 using DesktopProgram.Views;
+using Microsoft.EntityFrameworkCore;
 
 namespace DesktopProgram
 {
@@ -12,6 +14,14 @@ namespace DesktopProgram
         public MainWindow()
         {
             InitializeComponent();
+
+            using (var context = new ApplicationDbContext())
+            {
+                context.Database.Migrate();
+            }
+
+            ApplicationDbContext.SeedProjects();
+
             ShowLogin();
         }
 
@@ -57,15 +67,22 @@ namespace DesktopProgram
         private void ShowBuildingsView()
         {
             var buildingsControl = new BuildingsControl();
+            buildingsControl.LoadResourcesRequested += ShowResourcesView;
+            buildingsControl.ShowProfileRequested += ShowUserProfile;
+            buildingsControl.LogoutRequested += Logout;
+            buildingsControl.GoHomeRequested += ShowMainControl;
             MainContent.Content = buildingsControl;
         }
 
         private void ShowResourcesView()
         {
             var resourcesControl = new ResourcesControl();
+            resourcesControl.LoadBuildingsRequested += ShowBuildingsView;
+            resourcesControl.ShowProfileRequested += ShowUserProfile;
+            resourcesControl.LogoutRequested += Logout;
+            resourcesControl.GoHomeRequested += ShowMainControl;
             MainContent.Content = resourcesControl;
         }
-
 
         private void Logout()
         {

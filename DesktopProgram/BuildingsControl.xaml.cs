@@ -2,18 +2,21 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using Microsoft.EntityFrameworkCore;
 using DesktopProgram.Data;
 using DesktopProgram.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DesktopProgram.Views
 {
     public partial class BuildingsControl : UserControl
     {
-        private readonly ApplicationDbContext _context;
+        private ApplicationDbContext _context;
+
+        public event Action LoadResourcesRequested;
+        public event Action ShowProfileRequested;
+        public event Action LogoutRequested;
+        public event Action GoHomeRequested;
 
         public BuildingsControl()
         {
@@ -22,17 +25,13 @@ namespace DesktopProgram.Views
             LoadBuildings();
         }
 
-        public event Action LoadResourcesRequested;
-        public event Action ShowProfileRequested;
-        public event Action LogoutRequested;
-
         private void LoadBuildings()
         {
             BuildingsPanel.Children.Clear();
 
             var buildings = _context.Buildings
                 .Include(b => b.BuildingResources)
-                .ThenInclude(br => br.Resource)
+                    .ThenInclude(br => br.Resource)
                 .OrderByDescending(b => b.Id)
                 .ToList();
 
@@ -54,14 +53,7 @@ namespace DesktopProgram.Views
                 Height = 370,
                 Margin = new Thickness(12),
                 Padding = new Thickness(20),
-                Effect = new System.Windows.Media.Effects.DropShadowEffect
-                {
-                    Color = Colors.LightSlateGray,
-                    BlurRadius = 15,
-                    ShadowDepth = 5,
-                    Opacity = 0.25
-                },
-                Cursor = Cursors.Arrow
+                Cursor = System.Windows.Input.Cursors.Arrow
             };
 
             var stack = new StackPanel { VerticalAlignment = VerticalAlignment.Stretch };
@@ -115,7 +107,6 @@ namespace DesktopProgram.Views
             }
             stack.Children.Add(resourcesStack);
 
-            // Кнопка удаления
             var deleteButton = new Button
             {
                 Content = "Удалить",
@@ -124,7 +115,7 @@ namespace DesktopProgram.Views
                 Margin = new Thickness(0, 12, 0, 0),
                 Padding = new Thickness(6),
                 BorderThickness = new Thickness(0),
-                Cursor = Cursors.Hand,
+                Cursor = System.Windows.Input.Cursors.Hand,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Width = 100
             };
@@ -145,25 +136,13 @@ namespace DesktopProgram.Views
             return border;
         }
 
-        private void LoadResources_Click(object sender, RoutedEventArgs e)
-        {
-            LoadResourcesRequested?.Invoke();
-        }
+        private void LoadResources_Click(object sender, RoutedEventArgs e) => LoadResourcesRequested?.Invoke();
 
-        private void ShowUserProfile_Click(object sender, RoutedEventArgs e)
-        {
-            ShowProfileRequested?.Invoke();
-        }
+        private void ShowUserProfile_Click(object sender, RoutedEventArgs e) => ShowProfileRequested?.Invoke();
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
-        {
-            LogoutRequested?.Invoke();
-        }
+        private void Logout_Click(object sender, RoutedEventArgs e) => LogoutRequested?.Invoke();
 
-        private void LoadBuildings_Click(object sender, RoutedEventArgs e)
-        {
-            LoadBuildings();
-        }
+        private void LoadBuildings_Click(object sender, RoutedEventArgs e) => LoadBuildings();
 
         private void AddBuilding_Click(object sender, RoutedEventArgs e)
         {
@@ -172,6 +151,11 @@ namespace DesktopProgram.Views
             {
                 LoadBuildings();
             }
+        }
+
+        private void GoHome_Click(object sender, RoutedEventArgs e)
+        {
+            GoHomeRequested?.Invoke();
         }
     }
 }
