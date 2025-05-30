@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using DesktopProgram.Data;
 using DesktopProgram.Models;
 
 namespace DesktopProgram.Views
@@ -77,9 +79,14 @@ namespace DesktopProgram.Views
 
         private void LoadProjects()
         {
-            var projectsControl = new ProjectsControl();
-            ContentArea.Content = projectsControl;
+            using (var db = new ApplicationDbContext())
+            {
+                List<Project> projects = db.Projects.ToList();
+                ProjectsList.ItemsSource = projects;
+            }
         }
+
+
 
         private void GoToTasks_Click(object sender, RoutedEventArgs e)
         {
