@@ -1,0 +1,90 @@
+using Microsoft.EntityFrameworkCore;
+using DesktopProgram.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace DesktopProgram.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext() { }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Building> Buildings { get; set; }
+        public virtual DbSet<Resource> Resources { get; set; }
+        public virtual DbSet<BuildingResource> BuildingResources { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite("Data Source=appdata.db");
+            }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<BuildingResource>()
+                .HasOne(br => br.Building)
+                .WithMany(b => b.BuildingResources)
+                .HasForeignKey(br => br.BuildingId);
+
+            modelBuilder.Entity<BuildingResource>()
+                .HasOne(br => br.Resource)
+                .WithMany()
+                .HasForeignKey(br => br.ResourceId);
+
+            modelBuilder.Entity<Resource>().HasData(
+                new Resource { Id = 1, Name = "Деревo", Cost = 100 },
+                new Resource { Id = 2, Name = "Камень", Cost = 200 }
+            );
+
+            modelBuilder.Entity<Building>().HasData(
+                new Building { Id = 1, Name = "Ферма", Status = "In Progress", Progress = 45 }
+            );
+
+            modelBuilder.Entity<BuildingResource>().HasData(
+                new BuildingResource { Id = 1, BuildingId = 1, ResourceId = 1, Quantity = 20 },
+                new BuildingResource { Id = 2, BuildingId = 1, ResourceId = 2, Quantity = 10 }
+            );
+        }
+
+        public static void SeedProjects()
+        {
+            using var context = new ApplicationDbContext();
+            if (!context.Projects.Any())
+            {
+                var projects = new List<Project>
+                {
+                    new Project
+                    {
+                        Name = "Жилой комплекс \"Солнечный\"",
+                        Status = "В процессе",
+                        Budget = "12 млн",
+                        ResourceUsage = "Дерево: 500, Камень: 200",
+                        Timeline = "Январь 2025 – Декабрь 2025"
+                    },
+                    new Project
+                    {
+                        Name = "Офисное здание в центре",
+                        Status = "Планируется",
+                        Budget = "25 млн",
+                        ResourceUsage = "Сталь: 1000, Бетон: 500",
+                        Timeline = "Март 2026 – Ноябрь 2026"
+                    }
+                };
+
+                context.Projects.AddRange(projects);
+                context.SaveChanges();
+            }
+        }
+    }
+}

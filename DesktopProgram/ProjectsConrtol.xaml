@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="DesktopProgram.Views.ProjectsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Height="Auto" Width="Auto"
+             Background="#f0f2f5" Padding="10">
+
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="ShadowEffect" Color="#888" Direction="270" ShadowDepth="3" Opacity="0.3" BlurRadius="7"/>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="10" Width="660" HorizontalAlignment="Center">
+        <ItemsControl x:Name="ProjectsList" Width="640" HorizontalAlignment="Center">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border 
+                        Background="White" 
+                        BorderBrush="#4A90E2" 
+                        BorderThickness="1" 
+                        Margin="8" 
+                        Padding="15" 
+                        CornerRadius="12" 
+                        Effect="{DynamicResource ShadowEffect}"
+                        Width="620">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" Foreground="#333" Margin="0 0 0 8"/>
+                            <TextBlock Text="{Binding Status}" FontWeight="SemiBold" Foreground="#4A90E2" Margin="0 0 0 6"/>
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 4">
+                                <TextBlock Text="Бюджет: " FontWeight="Bold" Foreground="#555"/>
+                                <TextBlock Text="{Binding Budget}" Foreground="#555"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 4">
+                                <TextBlock Text="Ресурсы: " FontWeight="Bold" Foreground="#555"/>
+                                <TextBlock Text="{Binding ResourceUsage}" Foreground="#555" TextWrapping="Wrap" Width="400"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Срок: " FontWeight="Bold" Foreground="#555"/>
+                                <TextBlock Text="{Binding Timeline}" Foreground="#555"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </ScrollViewer>
+</UserControl>
