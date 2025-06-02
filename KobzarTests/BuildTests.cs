@@ -1,9 +1,6 @@
-using Xunit;
 using Moq;
-using System.Collections.Generic;
 using DesktopProgram.Models;
 using DesktopProgram.ViewModels;
-using System.Linq;
 
 public class AddBuildingViewModelTests
 {

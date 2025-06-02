@@ -1,9 +1,6 @@
-using Xunit;
 using Microsoft.EntityFrameworkCore;
-using DesktopProgram.ViewModels;
 using DesktopProgram.Models;
 using DesktopProgram.Data;
-using System.Linq;
 
 public class ResourcesViewModelTests
 {
