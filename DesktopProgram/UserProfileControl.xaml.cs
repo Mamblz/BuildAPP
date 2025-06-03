@@ -71,9 +71,10 @@ namespace DesktopProgram.Views
             var changeEmailWindow = new ChangeEmailWindow(EmailTextBox.Text);
             if (changeEmailWindow.ShowDialog() == true)
             {
-                EmailTextBox.Text = changeEmailWindow.NewEmailTextBox.Text;
+                EmailTextBox.Text = changeEmailWindow.NewEmail;
             }
         }
+
 
         private bool IsValidEmail(string email)
         {

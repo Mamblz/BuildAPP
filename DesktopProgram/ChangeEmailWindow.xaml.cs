@@ -1,40 +1,25 @@
-﻿using System.Windows;
+﻿using DesktopProgram.ViewModels;
+using System.Windows;
 
 namespace DesktopProgram.Views
 {
     public partial class ChangeEmailWindow : Window
     {
+        private readonly ChangeEmailViewModel _viewModel;
+
         public ChangeEmailWindow(string currentEmail)
         {
             InitializeComponent();
-            CurrentEmailTextBox.Text = currentEmail;
-        }
+            _viewModel = new ChangeEmailViewModel(currentEmail);
+            DataContext = _viewModel;
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
-            this.Close();
-        }
-
-        private void Save_Click(object sender, RoutedEventArgs e)
-        {
-            string newEmail = NewEmailTextBox.Text.Trim();
-
-            if (string.IsNullOrEmpty(newEmail) || !newEmail.Contains("@"))
+            _viewModel.RequestClose += () =>
             {
-                MessageBox.Show("Введите корректный Email.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            this.DialogResult = true;
-            this.Close();
+                DialogResult = _viewModel.DialogResult;
+                Close();
+            };
         }
 
-        private void NewEmailTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            PlaceholderTextBlock.Visibility = string.IsNullOrWhiteSpace(NewEmailTextBox.Text)
-                ? Visibility.Visible
-                : Visibility.Collapsed;
-        }
-
+        public string NewEmail => _viewModel.NewEmail;
     }
 }

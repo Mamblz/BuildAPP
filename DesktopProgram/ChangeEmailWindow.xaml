@@ -5,6 +5,11 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="#f0f2f5">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+
     <Grid>
         <Border Background="White" Padding="20" Margin="20" CornerRadius="15">
             <StackPanel>
@@ -16,29 +21,25 @@
                            Foreground="#333"/>
 
                 <TextBlock Text="Текущий Email:" Margin="0,0,0,5" Foreground="#444"/>
-                <TextBox x:Name="CurrentEmailTextBox"
-                         IsReadOnly="True"
+                <TextBox IsReadOnly="True"
                          Background="#eaeaea"
                          Padding="6"
-                         Margin="0,0,0,10"/>
+                         Margin="0,0,0,10"
+                         Text="{Binding CurrentEmail}" />
 
                 <TextBlock Text="Новый Email:" Margin="0,0,0,5" Foreground="#444"/>
 
                 <Grid Margin="0,0,0,20">
-                    <TextBox x:Name="NewEmailTextBox"
-         x:FieldModifier="public"
-         Padding="6"
-         VerticalContentAlignment="Center"
-         TextChanged="NewEmailTextBox_TextChanged"/>
+                    <TextBox Padding="6"
+                             VerticalContentAlignment="Center"
+                             Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" />
 
-
-                    <TextBlock x:Name="PlaceholderTextBlock"
-                               Text="example@example.com"
+                    <TextBlock Text="example@example.com"
                                Margin="10,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="#999"
                                IsHitTestVisible="False"
-                               Visibility="Visible"/>
+                               Visibility="{Binding IsPlaceholderVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -50,7 +51,7 @@
                             FontWeight="SemiBold"
                             BorderThickness="0"
                             Margin="0,0,10,0"
-                            Click="Cancel_Click"/>
+                            Command="{Binding CancelCommand}" />
                     <Button Content="Сохранить"
                             Width="100"
                             Height="35"
@@ -58,7 +59,7 @@
                             Foreground="White"
                             FontWeight="SemiBold"
                             BorderThickness="0"
-                            Click="Save_Click"/>
+                            Command="{Binding SaveCommand}" />
                 </StackPanel>
             </StackPanel>
         </Border>

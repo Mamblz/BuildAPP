@@ -1,58 +1,36 @@
-﻿using DesktopProgram.Models;
-using DesktopProgram.Services;
-using System.Windows;
+﻿using System.Windows;
+using DesktopProgram.Models;
+using DesktopProgram.ViewModels;
 
 namespace DesktopProgram.Views
 {
     public partial class ChangePasswordWindow : Window
     {
-        private readonly User _user;
-        private readonly AuthService _authService;
+        private readonly ChangePasswordViewModel _viewModel;
 
         public ChangePasswordWindow(User user)
         {
             InitializeComponent();
-            _user = user;
-            _authService = new AuthService();
+
+            _viewModel = new ChangePasswordViewModel(user);
+            DataContext = _viewModel;
+
+            _viewModel.RequestClose += () => this.Close();
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void OldPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            Close();
+            _viewModel.OldPassword = OldPasswordBox.Password;
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void NewPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            var oldPassword = OldPasswordBox.Password;
-            var newPassword = NewPasswordBox.Password;
-            var confirmPassword = ConfirmPasswordBox.Password;
+            _viewModel.NewPassword = NewPasswordBox.Password;
+        }
 
-            if (string.IsNullOrWhiteSpace(oldPassword) ||
-                string.IsNullOrWhiteSpace(newPassword) ||
-                string.IsNullOrWhiteSpace(confirmPassword))
-            {
-                MessageBox.Show("Все поля обязательны.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (newPassword != confirmPassword)
-            {
-                MessageBox.Show("Новые пароли не совпадают.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            var loggedUser = _authService.Login(_user.Username, oldPassword);
-            if (loggedUser == null)
-            {
-                MessageBox.Show("Старый пароль неверный.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            _user.PasswordHash = _authService.GetHashedPassword(newPassword);
-            _authService.UpdateUserPassword(_user);
-
-            MessageBox.Show("Пароль успешно изменен.", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+        private void ConfirmPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            _viewModel.ConfirmPassword = ConfirmPasswordBox.Password;
         }
     }
 }
