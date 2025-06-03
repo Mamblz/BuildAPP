@@ -1,11 +1,20 @@
 using DesktopProgram.Data;
 using DesktopProgram.Models;
+using DesktopProgram.ViewModels;
 using System.Text;
 using System.Security.Cryptography;
 
 namespace DesktopProgram.Services
 {
-    public class AuthService
+    public interface IAuthService
+    {
+        bool Register(string username, string email, string password);
+        User Login(string usernameOrEmail, string password);
+        void UpdateUserPassword(User user);
+        string GetHashedPassword(string password);
+    }
+
+    public class AuthService : IAuthService
     {
         private readonly ApplicationDbContext _context;
 

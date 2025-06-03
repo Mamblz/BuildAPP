@@ -5,6 +5,8 @@
              MinWidth="350" MinHeight="450">
 
     <UserControl.Resources>
+        <!-- Твои стили и эффекты -->
+
         <DropShadowEffect x:Key="ShadowEffect" Color="#888" Direction="270" ShadowDepth="3" BlurRadius="8" Opacity="0.3"/>
 
         <Style x:Key="RoundedButton" TargetType="Button">
@@ -82,9 +84,10 @@
 
                 <TextBlock Text="Логин" FontWeight="SemiBold" Margin="5,0,0,8" Foreground="#555"/>
                 <Border Background="#f9fbff" BorderBrush="#aaccee" BorderThickness="1" CornerRadius="12" Height="54" Margin="0,0,0,15">
-                    <TextBox x:Name="LoginTextBox" Background="Transparent" BorderThickness="0" Padding="14"
+                    <TextBox Background="Transparent" BorderThickness="0" Padding="14"
                              FontSize="16" Foreground="#222" VerticalContentAlignment="Center"
-                             CaretBrush="#4A90E2" />
+                             CaretBrush="#4A90E2"
+                             Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
                 <TextBlock Text="Пароль" FontWeight="SemiBold" Margin="20,15,0,8" Foreground="#555"/>
@@ -96,9 +99,9 @@
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,40,0,0">
                     <Button Style="{StaticResource RoundedButton}" Content="Войти" Width="160" Height="50" Margin="0,0,15,0"
-                            Click="LoginButton_Click" />
+                            Command="{Binding LoginCommand}" />
                     <Button Style="{StaticResource OutlinedButton}" Content="Регистрация" Width="160" Height="50"
-                            Click="RegisterButton_Click" />
+                            Command="{Binding RegisterCommand}" />
                 </StackPanel>
 
             </StackPanel>

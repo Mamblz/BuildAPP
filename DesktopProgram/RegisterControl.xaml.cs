@@ -1,100 +1,42 @@
-﻿    using System;
-    using System.Windows;
-    using System.Windows.Controls;
-    using System.Text.RegularExpressions;
-    using DesktopProgram.Services;
+﻿using System.Windows;
+using System.Windows.Controls;
+using BuildFlowApp.ViewModels;
 
-    namespace BuildFlowApp.Views
+namespace BuildFlowApp.Views
+{
+    public partial class RegisterControl : UserControl
     {
-        public partial class RegisterControl : UserControl
+        private readonly RegisterViewModel _viewModel;
+
+        public Action SwitchToLogin { get; internal set; }
+
+        public RegisterControl()
         {
-            private readonly AuthService _authService;
+            InitializeComponent();
+            _viewModel = new RegisterViewModel();
+            this.DataContext = _viewModel;
 
-            public Action SwitchToLogin { get; internal set; }
-
-            public RegisterControl()
+            _viewModel.OnError += message => MessageBox.Show(message);
+            _viewModel.OnSuccess += () =>
             {
-                InitializeComponent();
-                _authService = new AuthService();
-            }
-
-            private void BackButton_Click(object sender, RoutedEventArgs e)
-            {
+                MessageBox.Show("Регистрация успешна! Теперь вы можете войти.");
                 SwitchToLogin?.Invoke();
-            }
+            };
+        }
 
-            private bool IsValidEmail(string email)
-            {
-                if (string.IsNullOrWhiteSpace(email))
-                    return false;
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchToLogin?.Invoke();
+        }
 
-                try
-                {
-                    return Regex.IsMatch(email,
-                        @"^[^@\s]+@[^@\s]+\.[^@\s]+$",
-                        RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
-                }
-                catch (RegexMatchTimeoutException)
-                {
-                    return false;
-                }
-            }
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Username = UsernameTextBox.Text.Trim();
+            _viewModel.Email = EmailTextBox.Text.Trim();
+            _viewModel.Password = PasswordBox.Password;
+            _viewModel.ConfirmPassword = ConfirmPasswordBox.Password;
 
-            private bool IsPasswordStrong(string password)
-            {
-                return password.Length >= 8 &&
-                       Regex.IsMatch(password, "[0-9]") &&
-                       Regex.IsMatch(password, "[a-zA-Z]");
-            }
-
-            private void RegisterButton_Click(object sender, RoutedEventArgs e)
-            {
-                string username = UsernameTextBox.Text.Trim();
-                string email = EmailTextBox.Text.Trim();
-                string password = PasswordBox.Password;
-                string confirmPassword = ConfirmPasswordBox.Password;
-
-                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) ||
-                    string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
-                {
-                    MessageBox.Show("Пожалуйста, заполните все поля.");
-                    return;
-                }
-
-                if (username.Length < 3)
-                {
-                    MessageBox.Show("Логин пользователя должен содержать минимум 3 символа.");
-                    return;
-                }
-
-                if (!IsValidEmail(email))
-                {
-                    MessageBox.Show("Пожалуйста, введите корректный email адрес.");
-                    return;
-                }
-
-                if (password != confirmPassword)
-                {
-                    MessageBox.Show("Пароли не совпадают.");
-                    return;
-                }
-
-                if (!IsPasswordStrong(password))
-                {
-                    MessageBox.Show("Пароль должен содержать минимум 8 символов, включая цифры и буквы.");
-                    return;
-                }
-
-                bool success = _authService.Register(username, email, password);
-                if (success)
-                {
-                    MessageBox.Show("Регистрация успешна! Теперь вы можете войти.");
-                    SwitchToLogin?.Invoke();
-                }
-                else
-                {
-                    MessageBox.Show("Пользователь с таким именем или email уже существует.");
-                }
-            }
+            _viewModel.Register();
         }
     }
+}

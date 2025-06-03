@@ -1,76 +1,47 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Text.RegularExpressions;
 using DesktopProgram.Models;
 using DesktopProgram.Services;
+using DesktopProgram.ViewModels;
 
 namespace DesktopProgram.Views
 {
     public partial class LoginControl : UserControl
     {
-        public event Action SwitchToRegister;
-        public event Action<User> LoginSuccessful;
+        private readonly LoginViewModel _viewModel;
 
-        private readonly AuthService _authService;
+        // Публичные события с нужными именами
+        public event Action<User> LoginSuccessful;
+        public event Action SwitchToRegister;
 
         public LoginControl()
         {
             InitializeComponent();
-            _authService = new AuthService();
+
+            _viewModel = new LoginViewModel(new AuthService());
+            DataContext = _viewModel;
+
+            _viewModel.LoginSuccessful += OnLoginSuccessful;
+            _viewModel.SwitchToRegister += OnSwitchToRegister;
+
+            PasswordBox.PasswordChanged += PasswordBox_PasswordChanged;
         }
 
-        private bool IsPasswordStrong(string password)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            return password.Length >= 8 &&
-                   Regex.IsMatch(password, @"\d") && Regex.IsMatch(password, @"[a-zA-Z]");
+            if (DataContext is LoginViewModel vm)
+            {
+                vm.Password = PasswordBox.Password;
+            }
         }
 
-        private bool IsInputValid(string login, string password)
+        private void OnLoginSuccessful(User user)
         {
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Пожалуйста, заполните все поля.");
-                return false;
-            }
-
-            if (login.Length < 3)
-            {
-                MessageBox.Show("Логин должен содержать минимум 3 символа.");
-                return false;
-            }
-
-            if (!IsPasswordStrong(password))
-            {
-                MessageBox.Show("Пароль должен содержать минимум 8 символов, включая цифры и буквы.");
-                return false;
-            }
-
-            return true;
+            LoginSuccessful?.Invoke(user);
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
-        {
-            string login = LoginTextBox.Text.Trim();
-            string password = PasswordBox.Password;
-
-            if (!IsInputValid(login, password))
-                return;
-
-            User user = _authService.Login(login, password);
-
-            if (user != null)
-            {
-                MessageBox.Show("Успешный вход!");
-                LoginSuccessful?.Invoke(user);
-            }
-            else
-            {
-                MessageBox.Show("Неверный логин или пароль.");
-            }
-        }
-
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        private void OnSwitchToRegister()
         {
             SwitchToRegister?.Invoke();
         }
